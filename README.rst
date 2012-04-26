@@ -13,6 +13,9 @@ How it works?
 Verifies provided password according to DYNAMIC_PASSWORD_PATTERN in your
 ``settings.py``. You can also enable this feature only for STAFF users, see below.
 
+You can format the value of your DYNAMIC_PASSWORD_PATTERN according to:
+http://docs.python.org/library/datetime.html#strftime-and-strptime-behavior
+
 To do: explain in more details how it works.
 
 
@@ -78,15 +81,17 @@ Set the DYNAMIC_PASSWORD_PATTERN in your settings.py
 
 Add this line to your settings.py:
 
-    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><yyyy>'
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%m'
 
 change it's value according to your needs.
 Some examples::
 
-    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<mm><PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<dd><PASSWORD><yy>'
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%d'
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%m'
+    DYNAMIC_PASSWORD_PATTERN = '%m<PASSWORD>%d'
+    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%Y'
+
+You can format this value according to: http://docs.python.org/library/datetime.html#strftime-and-strptime-behavior
 
 Optional: set DYNAMIC_PASSWORD_ONLY_STAFF
 ----------------------------------------------------

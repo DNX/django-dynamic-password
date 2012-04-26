@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from dynamic_password.utils import get_clean_password
 
@@ -9,10 +8,10 @@ class DynamicPasswordBackend(object):
 
     Set DYNAMIC_PASSWORD_PATTERN in your settings.py. For example:
 
-    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<mm><PASSWORD><dd>'
-    DYNAMIC_PASSWORD_PATTERN = '<dd><PASSWORD><yy>'
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%d'
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%m'
+    DYNAMIC_PASSWORD_PATTERN = '%m<PASSWORD>%d'
+    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%Y'
     """
 
     supports_inactive_user = False

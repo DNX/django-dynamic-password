@@ -129,7 +129,7 @@ INSTALLED_APPS = (
 AUTHENTICATION_BACKENDS = (
     'dynamic_password.backends.DynamicPasswordBackend',
     )
-DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
+DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%d'
 DYNAMIC_PASSWORD_ONLY_STAFF = False
 # END dynamic_password configuration
 
