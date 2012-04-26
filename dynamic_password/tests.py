@@ -1,16 +1,7 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
+from dynamic_password.utils import get_clean_password
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class DynamicPasswordTest(TestCase):
+    def test_get_clean_password(self):
+        self.assertEqual(get_clean_password('denis85'), 'denis')
