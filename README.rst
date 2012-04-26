@@ -71,7 +71,7 @@ DynamicPasswordBackend line to the AUTHENTICATION_BACKENDS tuple:
 
     AUTHENTICATION_BACKENDS = (
                 'dynamic_password.backends.DynamicPasswordBackend',
-        )
+                )
 
 Set the DYNAMIC_PASSWORD_PATTERN in your settings.py
 ----------------------------------------------------
@@ -81,7 +81,8 @@ Add this line to your settings.py:
     DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><yyyy>'
 
 change it's value according to your needs.
-Some examples:
+Some examples::
+
     DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
     DYNAMIC_PASSWORD_PATTERN = '<PASSWORD><dd>'
     DYNAMIC_PASSWORD_PATTERN = '<mm><PASSWORD><dd>'
