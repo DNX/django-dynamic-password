@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block body %}
+    <h1>{{ state }}</h1>
+    <form action="/" method="post" name="loginform" id="loginform" >
+        {% csrf_token %}
+        {% if next %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+        <p>
+            <label for="username">{% trans "Username" %}<br />
+            <input type="text"
+                    name="username"
+                    id="username"
+                    class="inputFields"
+                    value="{{ username }}"
+                    size="20"
+                    tabindex="1" />
+            </label>
+        </p>
+        <p>
+            <label for="password">{% trans "Password" %}<br />
+            <input type="password"
+                    name="password"
+                    id="password"
+                    class="inputFields"
+                    value=""
+                    size="20"
+                    tabindex="2" />
+            </label>
+        </p>
+        <p class="submit">
+            <input  name="btnLogin"
+                    id="btnLogin"
+                    type="submit"
+                    value="{% trans "Log In" %}"
+                    tabindex="3"
+                    style="width: 150px; font-size: 18px;" />
+        </p>
+    </form>
+{% endblock body %}
