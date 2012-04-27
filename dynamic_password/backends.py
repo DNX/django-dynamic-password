@@ -11,13 +11,15 @@ class DynamicPasswordBackend(object):
     DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%d'
     DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%m'
     DYNAMIC_PASSWORD_PATTERN = '%m<PASSWORD>%d'
-    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%Y'
+    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%Y.%m'
     """
 
     supports_inactive_user = False
 
     def authenticate(self, username=None, password=None):
         password = get_clean_password(password)
+        if not password:
+            return None
         try:
             user = User.objects.get(username=username)
             if user.check_password(password):
