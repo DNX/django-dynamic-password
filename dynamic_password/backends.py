@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from dynamic_password.utils import get_clean_password
 
@@ -17,11 +18,14 @@ class DynamicPasswordBackend(object):
     supports_inactive_user = False
 
     def authenticate(self, username=None, password=None):
-        password = get_clean_password(password)
-        if not password:
-            return None
+        only_staff = getattr(settings, 'DYNAMIC_PASSWORD_ONLY_STAFF', False)
         try:
             user = User.objects.get(username=username)
+            if only_staff:
+                if user.is_staff:
+                    password = get_clean_password(password)
+            else:
+                password = get_clean_password(password)
             if user.check_password(password):
                 return user
         except User.DoesNotExist:
