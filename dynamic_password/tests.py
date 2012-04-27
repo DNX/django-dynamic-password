@@ -2,6 +2,7 @@ from datetime import datetime
 from django.test import TestCase
 from dynamic_password.utils import get_clean_password
 from django.test.utils import override_settings
+from django.contrib.auth.models import User
 
 
 class GetCleanPasswordTest(TestCase):
@@ -46,7 +47,7 @@ class DynamicPasswordBackendTest(TestCase):
     def test_login_backend_day(self):
         login = self.client.login(username='test', password='test')
         self.assertFalse(login)
-        login = self.client.login(username='test', password='test%s' % self.now.day)
+        login = self.client.login(username='test', password=self.now.strftime('test%d'))
         self.assertTrue(login)
 
     @override_settings(DYNAMIC_PASSWORD_PATTERN='%d<PASSWORD>%m.%Y')
@@ -54,4 +55,34 @@ class DynamicPasswordBackendTest(TestCase):
         login = self.client.login(username='test', password='test2012')
         self.assertFalse(login)
         login = self.client.login(username='test', password=self.now.strftime('%dtest%m.%Y'))
+        self.assertTrue(login)
+
+    @override_settings(DYNAMIC_PASSWORD_PATTERN='<PASSWORD>%d')
+    @override_settings(DYNAMIC_PASSWORD_ONLY_STAFF=True)
+    def test_login_backend_only_staff_true(self):
+        new_user = User.objects.create_user('newuser', 'newuser@test.com', 'newuserpass')
+        login = self.client.login(username='newuser', password='newuserpass')
+        self.assertTrue(login)
+        login = self.client.login(username='newuser', password=self.now.strftime('newuserpass%d'))
+        self.assertFalse(login)
+        new_user.is_staff = True
+        new_user.save()
+        login = self.client.login(username='newuser', password='newuserpass')
+        self.assertFalse(login)
+        login = self.client.login(username='newuser', password=self.now.strftime('newuserpass%d'))
+        self.assertTrue(login)
+
+    @override_settings(DYNAMIC_PASSWORD_PATTERN='<PASSWORD>%d')
+    @override_settings(DYNAMIC_PASSWORD_ONLY_STAFF=False)
+    def test_login_backend_only_staff_false(self):
+        new_user = User.objects.create_user('newuser', 'newuser@test.com', 'newuserpass')
+        login = self.client.login(username='newuser', password='newuserpass')
+        self.assertFalse(login)
+        login = self.client.login(username='newuser', password=self.now.strftime('newuserpass%d'))
+        self.assertTrue(login)
+        new_user.is_staff = True
+        new_user.save()
+        login = self.client.login(username='newuser', password='newuserpass')
+        self.assertFalse(login)
+        login = self.client.login(username='newuser', password=self.now.strftime('newuserpass%d'))
         self.assertTrue(login)
