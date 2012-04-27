@@ -2,6 +2,12 @@
 django-dynamic-password: dynamic password authentication for your web service
 =============================================================================
 
+**Attention!** Only for really paranoid people as me.
+
+The project code and bugtracker is hosted on
+`Bitbucket <https://bitbucket.org/DNX/django-dynamic-password/>`_ and `Github <https://github.com/DNX/django-dynamic-password/>`_.
+
+
 Introduction
 ============
 
@@ -16,8 +22,22 @@ Verifies provided password according to DYNAMIC_PASSWORD_PATTERN in your
 You can format the value of your DYNAMIC_PASSWORD_PATTERN according to:
 http://docs.python.org/library/datetime.html#strftime-and-strptime-behavior
 
-To do: explain in more details how it works.
+**Some examples.** Let's assume that today is **September 29th, 2022**, 8:01 (09-29-2022 8:01). Say your username is "admin" and password "s3kr3t", according to your DYNAMIC_PASSWORD_PATTERN in settings.py you will have:
 
+Case 1::
+
+    DYNAMIC_PASSWORD_PATTERN = '<PASSWORD>%d'
+    only today valid password: s3kr3t29
+
+Case 2::
+
+    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%H'
+    only this hour valid password: 29s3kr3t08
+
+Case 3::
+
+    DYNAMIC_PASSWORD_PATTERN = '%d<PASSWORD>%H-%M'
+    only this minute valid password: 29s3kr3t08-01
 
 Installation
 ============
@@ -57,7 +77,7 @@ configuration of your project.
 Add dynamic_password to the INSTALLED_APPS
 --------------------------------------------
 
-Once the dynamic_password is in your Python path, you need to modify the INSTALLED_APPS setting to include the dynamic_password module:
+Once the dynamic_password is in your Python path, you need to modify the INSTALLED_APPS setting to include the dynamic_password module::
 
     INSTALLED_APPS = (
         # ...,
@@ -100,3 +120,7 @@ In order to enable dynamic_password only for staff users you can add this
 line to your settings.py:
 
     DYNAMIC_PASSWORD_ONLY_STAFF = True
+
+Future development plans
+========================
+- Enable "per user" dynamic password, DYNAMIC_PASSWORD_USERS = ('user1', 'user2', )
